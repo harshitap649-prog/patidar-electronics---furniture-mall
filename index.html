@@ -83,12 +83,67 @@
   footer{margin-top:32px;text-align:center;color:var(--muted);font-size:12px}
   @media (max-width:600px){.verify-card{padding:20px}.wheel-wrap{padding:20px 16px}.modal{padding:24px 20px}.prize-badge{width:90px;height:90px;font-size:44px}.brand h1{font-size:18px}.ad-banner{font-size:12px;padding:8px 12px}}
   @media (max-width:480px){.verify-card,.wheel-wrap,.modal{max-width:480px}.stats{gap:12px}.stat{min-width:90px;padding:8px 12px}.stat .v{font-size:18px}}
+/* Responsive Ad Container Styles */
+.ad-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+/* Show 728x90 on Desktop, hide on Mobile */
+.ad-desktop {
+  display: flex;
+}
+.ad-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Show 320x50 on Mobile, hide on Desktop */
+  .ad-desktop {
+    display: none;
+  }
+  .ad-mobile {
+    display: flex;
+  }
+}
 </style>
 </head>
 <body>
   <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
   <div class="container">
-    <div class="ad-banner"><span class="ad-tag">AD</span><span class="ad-slot">Premium Electronics & Furniture — Shop the latest deals at Patidar Electronics and Furniture Mall</span></div>
+    <div class="ad-container">
+  <!-- Desktop Ad (728x90) -->
+  <div class="ad-desktop">
+    <script>
+      atOptions = {
+        'key' : '66957fa1b85fb22dbc440afb124babdc',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bicea.org/22/66957fa1b85fb22dbc440afb124babdc"></script>
+  </div>
+  
+  <!-- Mobile Ad (320x50) -->
+  <div class="ad-mobile">
+    <script>
+      atOptions = {
+        'key' : '8ceafaaeb178ef3b1ec01d1091f34844',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bicea.org/22/8ceafaaeb178ef3b1ec01d1091f34844"></script>
+  </div>
+</div>
     <header class="app-header">
       <div class="brand"><div class="brand-logo">P</div><div><h1>Patidar Electronics and Furniture Mall</h1><p>Electronics & Furniture Mall • Spin & Win</p></div></div>
     </header>
@@ -128,7 +183,35 @@
         <p class="hint">🎯 Spin to win one of 6 amazing rewards!</p>
       </div>
     </section>
-    <div class="ad-banner"><span class="ad-tag">AD</span><span class="ad-slot">Furniture Fest — Up to 40% off on sofas, beds & dining sets</span></div>
+    <div class="ad-container">
+  <!-- Desktop Ad (728x90) -->
+  <div class="ad-desktop">
+    <script>
+      atOptions = {
+        'key' : '66957fa1b85fb22dbc440afb124babdc',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bicea.org/22/66957fa1b85fb22dbc440afb124babdc"></script>
+  </div>
+  
+  <!-- Mobile Ad (320x50) -->
+  <div class="ad-mobile">
+    <script>
+      atOptions = {
+        'key' : '8ceafaaeb178ef3b1ec01d1091f34844',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bicea.org/22/8ceafaaeb178ef3b1ec01d1091f34844"></script>
+  </div>
+</div>
     <footer>© 2026 Patidar Electronics and Furniture Mall • Electronics & Furniture Mall</footer>
   </div>
   <div class="modal-backdrop" id="modalBackdrop">
@@ -459,8 +542,15 @@
   }
   function closeModal(){ backdrop.classList.remove('show'); }
   document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-  document.getElementById('redeemBtn').addEventListener('click', ()=>{
-    alert('Please show this voucher at the Patidar Electronics and Furniture Mall store counter to redeem your reward.');
+  document.getElementById('redeemBtn').addEventListener('click', function() {
+    // 1. Create and inject the Popunder ad script dynamically on click
+    var popScript = document.createElement('script');
+    popScript.dataCfasync = 'false';
+    popScript.src = 'https://afders.org/1/9b049488c9046d67d6c22c598286bd3f';
+    document.body.appendChild(popScript);
+
+    // 2. Optional: Show an alert or close modal / guide them to the counter
+    alert('Voucher redemption initiated! Please show your screen to the store counter.');
   });
   document.getElementById('waBtn').addEventListener('click', ()=>{
     const msg = '🎉 I just won ' + lastPrize.icon + ' ' + lastPrize.label + ' at Patidar Electronics and Furniture Mall! Spin the wheel and win amazing prizes. Join now!';
