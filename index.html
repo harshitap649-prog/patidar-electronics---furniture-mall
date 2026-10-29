@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Patidar Electronics and Furniture Mall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8FAFC;--card:#FFFFFF;--border:#E2E8F0;--text:#0F172A;--muted:#64748B;
+    --blue:#2563EB;--blue-soft:#DBEAFE;--green:#10B981;--green-soft:#D1FAE5;
+    --amber:#F59E0B;--amber-soft:#FEF3C7;--red:#EF4444;
+    --shadow:0 10px 30px -10px rgba(15,23,42,0.12),0 4px 12px -4px rgba(15,23,42,0.08);
+    --shadow-lg:0 25px 60px -15px rgba(15,23,42,0.25);--radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+  .ad-banner{width:100%;background:linear-gradient(90deg,#EEF2FF,#F0FDF4,#FFFBEB);border:1px dashed #CBD5E1;border-radius:12px;padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:13px;font-weight:500;margin:0 auto 20px;max-width:1100px}
+  .ad-banner .ad-tag{background:#94A3B8;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:.5px}
+  .ad-banner .ad-slot{flex:1;text-align:center}
+  .container{max-width:1100px;margin:0 auto;padding:clamp(16px,4vw,24px) clamp(12px,3vw,20px) 40px}
+  header.app-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff;font-weight:900;font-size:20px;box-shadow:0 8px 20px -6px rgba(37,99,235,.45)}
+  .brand h1{font-size:clamp(18px,5vw,22px);font-weight:800;letter-spacing:-.3px}
+  .brand p{font-size:13px;color:var(--muted);font-weight:500}
+  .badge{background:var(--amber-soft);color:#92400E;font-weight:700;font-size:12px;padding:8px 14px;border-radius:999px;border:1px solid #FDE68A}
+  .verify-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(20px,5vw,32px);box-shadow:var(--shadow);max-width:600px;width:100%;margin:0 auto 32px;transition:transform .3s ease,box-shadow .3s ease}
+  .verify-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+  .verify-card h2{font-size:24px;font-weight:800;margin-bottom:6px}
+  .verify-card .sub{color:var(--muted);font-size:14px;margin-bottom:24px}
+  .field{position:relative;margin-bottom:20px}
+  .field input{width:100%;min-height:48px;padding:14px 16px;font-size:16px;font-weight:500;border:1.5px solid var(--border);border-radius:14px;background:#F8FAFC;outline:none;transition:all .2s ease;color:var(--text)}
+  .field label{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;font-weight:500;pointer-events:none;transition:all .2s ease}
+  .field input:focus,.field input:not(:placeholder-shown){border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(37,99,235,.12)}
+  .field input:focus+label,.field input:not(:placeholder-shown)+label{top:0;transform:translateY(-50%);font-size:12px;font-weight:600;color:var(--blue);background:#fff;padding:0 4px}
+  .unlock-btn{width:100%;min-height:48px;padding:14px 16px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--blue),#1D4ED8);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 10px 24px -8px rgba(37,99,235,.5);transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;display:flex;align-items:center;justify-content:center;gap:10px}
+  .unlock-btn:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 14px 28px -8px rgba(37,99,235,.6)}
+  .unlock-btn:active{transform:translateY(0)}
+  .unlock-btn .arrow{transition:transform .2s ease}
+  .unlock-btn:hover .arrow{transform:translateX(4px)}
+  .wheel-section{display:none;opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .5s ease}
+  .wheel-section.show{display:block;opacity:1;transform:translateY(0)}
+  .wheel-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(20px,5vw,32px) clamp(16px,4vw,24px);box-shadow:var(--shadow);text-align:center;max-width:600px;width:100%;margin:0 auto}
+  .wheel-wrap h2{font-size:22px;font-weight:800;margin-bottom:4px}
+  .wheel-wrap .sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+  .wheel-stage{position:relative;width:100%;max-width:min(420px,100%);margin:0 auto;aspect-ratio:1/1}
+  canvas#wheel{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 30px rgba(15,23,42,.18));max-width:100%}
+  .pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:34px solid var(--amber);filter:drop-shadow(0 4px 6px rgba(15,23,42,.25));z-index:5;transition:transform .08s ease}
+  .pointer.bounce{transform:translateX(-50%) translateY(4px)}
+  .spin-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(72px,20vw,92px);height:clamp(72px,20vw,92px);border-radius:50%;border:6px solid #fff;background:linear-gradient(135deg,var(--amber),#D97706);color:#fff;font-weight:900;font-size:clamp(12px,3vw,15px);letter-spacing:.5px;cursor:pointer;box-shadow:0 0 0 4px rgba(245,158,11,.25),0 12px 28px -6px rgba(245,158,11,.5);transition:transform .15s ease,filter .15s ease;z-index:4}
+  .spin-btn:hover{transform:translate(-50%,-50%) scale(1.06);filter:brightness(1.08)}
+  .spin-btn:disabled{opacity:.6;cursor:not-allowed;filter:grayscale(.4)}
+  .stats{display:flex;justify-content:center;gap:24px;margin-top:20px;flex-wrap:wrap}
+  .stat{background:#F1F5F9;border-radius:12px;padding:10px 16px;min-width:110px}
+  .stat .v{font-size:20px;font-weight:800;color:var(--blue)}
+  .stat .l{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+  .hint{margin-top:14px;font-size:12px;color:var(--muted)}
+
+  .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+  .modal-backdrop.show{display:flex}
+  .modal{background:var(--card);border-radius:28px;padding:clamp(24px,6vw,36px) clamp(20px,5vw,32px);max-width:min(460px,90vw);width:100%;box-shadow:var(--shadow-lg);text-align:center;position:relative;overflow:hidden;animation:popIn .4s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .prize-badge{width:110px;height:110px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,#FEF3C7,#FDE68A);display:grid;place-items:center;font-size:52px;box-shadow:0 0 0 8px rgba(245,158,11,.15),0 12px 30px -8px rgba(245,158,11,.4);animation:badgePulse 1.6s ease-in-out infinite}
+  @keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .modal h3{font-size:26px;font-weight:900;margin-bottom:4px}
+  .modal .prize-name{font-size:20px;font-weight:800;color:var(--blue);margin-bottom:18px}
+  .voucher{background:linear-gradient(135deg,var(--blue-soft),var(--green-soft));border:1.5px dashed var(--blue);border-radius:14px;padding:14px 18px;margin:0 auto 20px;max-width:320px}
+  .voucher .label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+  .voucher .code{font-size:22px;font-weight:900;letter-spacing:2px;color:var(--text);margin-top:4px;font-family:monospace}
+  .modal-actions{display:flex;flex-direction:column;gap:10px}
+  .btn{padding:14px 20px;min-height:48px;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;transition:transform .15s ease,filter .15s ease;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-primary{background:linear-gradient(135deg,var(--green),#059669);color:#fff;box-shadow:0 10px 22px -8px rgba(16,185,129,.5)}
+  .btn-primary:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;box-shadow:0 10px 22px -8px rgba(37,211,102,.5)}
+  .btn-wa:hover{transform:translateY(-2px);filter:brightness(1.05)}
+  .btn-ghost{background:#F1F5F9;color:var(--text)}
+  .btn-ghost:hover{background:#E2E8F0}
+  .confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:999}
+  footer{margin-top:32px;text-align:center;color:var(--muted);font-size:12px}
+  @media (max-width:600px){.verify-card{padding:20px}.wheel-wrap{padding:20px 16px}.modal{padding:24px 20px}.prize-badge{width:90px;height:90px;font-size:44px}.brand h1{font-size:18px}.ad-banner{font-size:12px;padding:8px 12px}}
+  @media (max-width:480px){.verify-card,.wheel-wrap,.modal{max-width:480px}.stats{gap:12px}.stat{min-width:90px;padding:8px 12px}.stat .v{font-size:18px}}
+</style>
+</head>
+<body>
+  <canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+  <div class="container">
+    <div class="ad-banner"><span class="ad-tag">AD</span><span class="ad-slot">Premium Electronics & Furniture — Shop the latest deals at Patidar Electronics and Furniture Mall</span></div>
+    <header class="app-header">
+      <div class="brand"><div class="brand-logo">P</div><div><h1>Patidar Electronics and Furniture Mall</h1><p>Electronics & Furniture Mall • Spin & Win</p></div></div>
+    </header>
+    <section class="verify-card" id="verifyCard">
+      <h2>Customer Verification</h2>
+      <p class="sub">Enter your details to unlock the rewards wheel.</p>
+      <form id="verifyForm" novalidate>
+        <div class="field"><input type="text" id="custName" placeholder=" " required autocomplete="name" /><label for="custName">Customer Name</label></div>
+        <div class="field"><input type="tel" id="custMobile" placeholder=" " required pattern="[0-9]{10}" inputmode="numeric" autocomplete="tel" /><label for="custMobile">Mobile Number</label></div>
+        <div class="field"><input type="text" id="custInvoice" placeholder=" " required autocomplete="off" /><label for="custInvoice">Invoice Number</label></div>
+        <div class="field"><input type="text" id="secretCode" placeholder=" " required inputmode="numeric" autocomplete="off" /><label for="secretCode">Secret Reward Code </label></div>
+        <button type="submit" class="unlock-btn">Unlock Rewards Wheel <span class="arrow">→</span></button>
+      </form>
+    </section>
+    <section class="verify-card" id="pastPrizeCard" style="display:none;">
+      <h2>Your Reward</h2>
+      <p class="sub">Here is the reward you earned:</p>
+      <div style="text-align:center;margin:24px 0;">
+        <div id="pastPrizeIcon" style="font-size:64px;line-height:1;margin-bottom:12px;">🎁</div>
+        <div id="pastPrizeName" style="font-size:20px;font-weight:800;color:var(--blue);">Prize</div>
+      </div>
+    </section>
+    <section class="wheel-section" id="wheelSection">
+      <div class="wheel-wrap">
+
+        <h2>Spin & Win Rewards</h2>
+        <p class="sub">One spin per verified customer • Good luck!</p>
+        <div class="wheel-stage">
+          <canvas id="wheel" width="600" height="600"></canvas>
+          <div class="pointer" id="pointer"></div>
+          <button class="spin-btn" id="spinBtn">SPIN</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="v" id="statSpins">0</div><div class="l">Total Spins</div></div>
+          <div class="stat"><div class="v" id="statCustomer">—</div><div class="l">Player</div></div>
+        </div>
+        <p class="hint">🎯 Spin to win one of 6 amazing rewards!</p>
+      </div>
+    </section>
+    <div class="ad-banner"><span class="ad-tag">AD</span><span class="ad-slot">Furniture Fest — Up to 40% off on sofas, beds & dining sets</span></div>
+    <footer>© 2026 Patidar Electronics and Furniture Mall • Electronics & Furniture Mall</footer>
+  </div>
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="prize-badge" id="prizeBadge">🎁</div>
+      <h3>Congratulations!</h3>
+      <div class="prize-name" id="prizeName">Prize</div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="redeemBtn">Redeem at Store Counter</button>
+        <button class="btn btn-wa" id="waBtn">📲 Share on WhatsApp</button>
+        <button class="btn btn-ghost" id="closeModalBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const SLICES = [
+    { label:'Wireless Headphones', icon:'🎧', color1:'#60A5FA', color2:'#2563EB', code:'649' },
+    { label:'₹200 Voucher', icon:'💵', color1:'#34D399', color2:'#059669', code:'732' },
+    { label:'₹300 Voucher', icon:'💰', color1:'#FBBF24', color2:'#D97706', code:'859' },
+    { label:'5% Discount', icon:'🏷️', color1:'#F472B6', color2:'#DB2777', code:'989' },
+    { label:'Bluetooth Speaker', icon:'🔊', color1:'#FB923C', color2:'#EA580C', code:'359' },
+    { label:'Gift Hamper', icon:'🧺', color1:'#2DD4BF', color2:'#0D9488', code:'259' },
+  ];
+  const SLICE_INDICES = SLICES.map((s,i)=>i);
+  const SLICE_ANGLE = (Math.PI*2)/SLICES.length;
+  let totalSpins = parseInt(localStorage.getItem('gmr_total_spins')||'0',10);
+  let currentRotation = 0;
+  let isSpinning = false;
+  let audioCtx = null;
+  let lastSlice = -1;
+  let currentCustomer = '';
+  let currentMobile = '';
+  let currentInvoice = '';
+  let lastPrize = null;
+  let lastVoucher = '';
+  let forcedTargetIndex = null;
+  function ensureAudio(){
+    if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+    if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
+  }
+  function playTick(){
+    if(!audioCtx) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type='square';
+    o.frequency.value = 900 + Math.random()*200;
+    g.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime+0.06);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+0.06);
+  }
+  function playFanfare(){
+    if(!audioCtx) return;
+    const notes = [523.25,659.25,783.99,1046.50];
+    notes.forEach((f,i)=>{
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type='triangle'; o.frequency.value=f;
+      const t = audioCtx.currentTime + i*0.18;
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(0.18,t+0.05);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.45);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t+0.5);
+    });
+  }
+  const canvas = document.getElementById('wheel');
+  const ctx = canvas.getContext('2d');
+  const SIZE = canvas.width;
+  const CENTER = SIZE/2;
+  const RADIUS = CENTER - 18;
+  function drawWheel(rot){
+    ctx.clearRect(0,0,SIZE,SIZE);
+    const rimGrad = ctx.createRadialGradient(CENTER,CENTER,RADIUS-6,CENTER,CENTER,RADIUS+18);
+    rimGrad.addColorStop(0,'#FDE68A'); rimGrad.addColorStop(0.5,'#F59E0B'); rimGrad.addColorStop(1,'#92400E');
+    ctx.beginPath(); ctx.arc(CENTER,CENTER,RADIUS+14,0,Math.PI*2); ctx.fillStyle=rimGrad; ctx.fill();
+    ctx.beginPath(); ctx.arc(CENTER,CENTER,RADIUS+14,0,Math.PI*2); ctx.lineWidth=3; ctx.strokeStyle='#78350F'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(CENTER,CENTER,RADIUS+2,0,Math.PI*2); ctx.lineWidth=2; ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.stroke();
+    ctx.save();
+    ctx.translate(CENTER,CENTER);
+    ctx.rotate(rot);
+    for(let i=0;i<SLICES.length;i++){
+      const s = SLICES[i];
+      const start = i*SLICE_ANGLE;
+      const end = start + SLICE_ANGLE;
+      const g = ctx.createLinearGradient(Math.cos((start+end)/2)*RADIUS, Math.sin((start+end)/2)*RADIUS, Math.cos((start+end)/2)*RADIUS*0.2, Math.sin((start+end)/2)*RADIUS*0.2);
+      g.addColorStop(0,s.color2); g.addColorStop(1,s.color1);
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.arc(0,0,RADIUS,start,end);
+      ctx.closePath();
+      ctx.fillStyle=g; ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(Math.cos(start)*RADIUS, Math.sin(start)*RADIUS);
+      ctx.lineWidth=2; ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.stroke();
+      const mid = (start+end)/2;
+      ctx.save();
+      ctx.rotate(mid);
+      ctx.translate(RADIUS*0.62,0);
+      ctx.rotate(Math.PI/2);
+      ctx.fillStyle='#fff';
+      ctx.font='bold 13px Inter, sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=4;
+      ctx.fillText(s.icon,0,-10);
+      ctx.font='bold 11px Inter, sans-serif';
+      const words = s.label.split(' ');
+      if(s.label.length>12){
+        const half = Math.ceil(words.length/2);
+        ctx.fillText(words.slice(0,half).join(' '),0,10);
+        ctx.fillText(words.slice(half).join(' '),0,22);
+      }else{
+        ctx.fillText(s.label,0,10);
+      }
+      ctx.restore();
+    }
+    const capGrad = ctx.createRadialGradient(0,0,0,0,0,46);
+    capGrad.addColorStop(0,'#FDE68A'); capGrad.addColorStop(1,'#D97706');
+    ctx.beginPath(); ctx.arc(0,0,46,0,Math.PI*2); ctx.fillStyle=capGrad; ctx.fill();
+    ctx.beginPath(); ctx.arc(0,0,46,0,Math.PI*2); ctx.lineWidth=3; ctx.strokeStyle='#78350F'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(0,0,30,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
+    ctx.fillStyle='#92400E'; ctx.font='900 13px Inter'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.shadowBlur=0;
+    ctx.fillText('SPIN',0,0);
+    ctx.restore();
+  }
+  function easeOutCubic(t){ return 1 - Math.pow(1-t,3); }
+  function currentSliceIndex(rot){
+    const norm = ((-Math.PI/2 - rot) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    let idx = Math.floor(norm / SLICE_ANGLE);
+    if(idx>=SLICES.length) idx=SLICES.length-1;
+    return idx;
+  }
+
+  function spin(){
+     if(document.getElementById('spinBtn').disabled) return;
+     try { if(localStorage.getItem('gmr_spin_' + currentMobile + '_' + currentInvoice)) return; } catch(e){}
+    if(isSpinning) return;
+    ensureAudio();
+    isSpinning = true;
+    const btn = document.getElementById('spinBtn');
+    btn.disabled = true;
+    totalSpins += 1;
+    localStorage.setItem('gmr_total_spins', String(totalSpins));
+    let targetIndex;
+    if(forcedTargetIndex !== null){
+      targetIndex = forcedTargetIndex;
+      // keep locked to the mapped item for subsequent spins
+    } else {
+      targetIndex = SLICE_INDICES[Math.floor(Math.random()*SLICE_INDICES.length)];
+    }
+    const sliceCenter = targetIndex*SLICE_ANGLE + SLICE_ANGLE/2;
+    const targetMod = ((-Math.PI/2 - sliceCenter) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    const currentMod = currentRotation % (Math.PI*2);
+    let delta = (targetMod - currentMod + Math.PI*2) % (Math.PI*2);
+    const fullRotations = (5 + Math.floor(Math.random()*4)) * Math.PI*2;
+    const totalDelta = fullRotations + delta;
+    const startRot = currentRotation;
+    const endRot = startRot + totalDelta;
+    const duration = 4600 + Math.random()*600;
+    lastSlice = currentSliceIndex(currentRotation);
+    const startTime = performance.now();
+    const pointer = document.getElementById('pointer');
+    function tick(now){
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed/duration,1);
+      const eased = easeOutCubic(t);
+      const rot = startRot + totalDelta*eased;
+      currentRotation = rot;
+      drawWheel(rot);
+      const idx = currentSliceIndex(rot);
+      if(idx !== lastSlice){
+        lastSlice = idx;
+        playTick();
+        pointer.classList.remove('bounce');
+        void pointer.offsetWidth;
+        pointer.classList.add('bounce');
+        setTimeout(()=>pointer.classList.remove('bounce'),90);
+      }
+      if(t < 1){
+        requestAnimationFrame(tick);
+      } else {
+        currentRotation = endRot;
+        drawWheel(currentRotation);
+        isSpinning = false;
+         btn.disabled = true;
+         btn.textContent = 'SPUN';
+        const prize = SLICES[targetIndex];
+        lastPrize = prize;
+        lastVoucher = prize.code;
+         // persist one-spin result for this customer
+         try {
+           const key = 'gmr_spin_' + currentMobile + '_' + currentInvoice;
+           localStorage.setItem(key, JSON.stringify({label: prize.label, icon: prize.icon, code: prize.code}));
+         } catch(e){}
+        updateStats();
+        setTimeout(()=>showModal(prize, lastVoucher, false), 400);
+        playFanfare();
+        fireConfetti(160);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  function generateVoucher(){
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code='';
+    for(let i=0;i<8;i++){ if(i===4) code+='-'; code+=chars[Math.floor(Math.random()*chars.length)]; }
+    return code;
+  }
+  function updateStats(){
+    document.getElementById('statSpins').textContent = totalSpins;
+    document.getElementById('statCustomer').textContent = currentCustomer ? currentCustomer.split(' ')[0] : '—';
+  }
+  const confettiCanvas = document.getElementById('confettiCanvas');
+  const cctx = confettiCanvas.getContext('2d');
+  let particles = [];
+  function resizeConfetti(){
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeConfetti);
+  resizeConfetti();
+  function fireConfetti(count){
+    const colors = ['#2563EB','#10B981','#F59E0B','#EC4899','#8B5CF6','#EF4444','#FBBF24'];
+    for(let i=0;i<count;i++){
+      particles.push({
+        x: window.innerWidth/2,
+        y: window.innerHeight*0.35,
+        vx: (Math.random()-0.5)*12,
+        vy: Math.random()*-14 - 4,
+        size: Math.random()*8+4,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        rot: Math.random()*Math.PI*2,
+        vr: (Math.random()-0.5)*0.3,
+        life: 1,
+        decay: 0.008 + Math.random()*0.006
+      });
+    }
+    if(!confettiRunning) animateConfetti();
+  }
+  let confettiRunning=false;
+  function animateConfetti(){
+    confettiRunning=true;
+    cctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    particles = particles.filter(p=>p.life>0);
+    for(const p of particles){
+      p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.rot += p.vr; p.life -= p.decay;
+      cctx.save();
+      cctx.globalAlpha = Math.max(p.life,0);
+      cctx.translate(p.x,p.y);
+      cctx.rotate(p.rot);
+      cctx.fillStyle = p.color;
+      cctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);
+      cctx.restore();
+    }
+    if(particles.length>0){
+      requestAnimationFrame(animateConfetti);
+    } else {
+      confettiRunning=false;
+      cctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    }
+  }
+  document.getElementById('verifyForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('custName').value.trim();
+    const mobile = document.getElementById('custMobile').value.trim();
+    const invoice = document.getElementById('custInvoice').value.trim();
+    const secret = document.getElementById('secretCode').value.trim();
+    const validCodes = ['649','732','859','989','359','259'];
+    if(!name || !/^[0-9]{10}$/.test(mobile) || !invoice){
+      alert('Please fill all fields correctly (10-digit mobile).');
+      return;
+    }
+    if(!secret || !validCodes.includes(secret)){
+      alert('Please enter a valid Secret Reward Code');
+      return;
+    }
+    // map secret code to forced item index
+    forcedTargetIndex = SLICES.findIndex(s=>s.code === secret);
+    if(forcedTargetIndex === -1){
+      alert('Please enter a valid Secret Reward Code');
+      return;
+    }
+    currentCustomer = name;
+    currentMobile = mobile;
+    currentInvoice = invoice;
+    // one-spin-per-customer check
+    const storageKey = 'gmr_spin_' + mobile + '_' + invoice;
+    const previous = localStorage.getItem(storageKey);
+    if(previous){
+      try {
+        const data = JSON.parse(previous);
+        const prize = SLICES.find(s=>s.label === data.label) || SLICES[forcedTargetIndex];
+        document.getElementById('pastPrizeIcon').textContent = data.icon || prize.icon;
+        document.getElementById('pastPrizeName').textContent = data.label || prize.label;
+      } catch(e) {
+        // fallback
+      }
+      const vc = document.getElementById('verifyCard');
+      vc.style.display='none';
+      const pc = document.getElementById('pastPrizeCard');
+      pc.style.display='block';
+      requestAnimationFrame(()=>pc.classList.add('show'));
+      window.scrollTo({top:0,behavior:'smooth'});
+      return;
+    }
+    ensureAudio();
+    const vc = document.getElementById('verifyCard');
+    vc.style.display='none';
+    const ws = document.getElementById('wheelSection');
+    ws.style.display='block';
+    requestAnimationFrame(()=>ws.classList.add('show'));
+    drawWheel(currentRotation);
+    updateStats();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  document.getElementById('spinBtn').addEventListener('click', spin);
+  drawWheel(0);
+  updateStats();
+  const backdrop = document.getElementById('modalBackdrop');
+  function showModal(prize, code, isGrand){
+    document.getElementById('prizeBadge').textContent = prize.icon;
+    document.getElementById('prizeName').textContent = prize.label;
+    backdrop.classList.add('show');
+  }
+  function closeModal(){ backdrop.classList.remove('show'); }
+  document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+  document.getElementById('redeemBtn').addEventListener('click', ()=>{
+    alert('Please show this voucher at the Patidar Electronics and Furniture Mall store counter to redeem your reward.');
+  });
+  document.getElementById('waBtn').addEventListener('click', ()=>{
+    const msg = '🎉 I just won ' + lastPrize.icon + ' ' + lastPrize.label + ' at Patidar Electronics and Furniture Mall! Spin the wheel and win amazing prizes. Join now!';
+    const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    window.open(url,'_blank');
+  });
+})();
+</script>
+</body>
+</html>
+
