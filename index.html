@@ -100,7 +100,7 @@
 .ad-mobile {
   display: none;
 }
-
+  
 @media (max-width: 768px) {
   /* Show 320x50 on Mobile, hide on Desktop */
   .ad-desktop {
@@ -154,7 +154,7 @@
         <div class="field"><input type="text" id="custName" placeholder=" " required autocomplete="name" /><label for="custName">Customer Name</label></div>
         <div class="field"><input type="tel" id="custMobile" placeholder=" " required pattern="[0-9]{10}" inputmode="numeric" autocomplete="tel" /><label for="custMobile">Mobile Number</label></div>
         <div class="field"><input type="text" id="custInvoice" placeholder=" " required autocomplete="off" /><label for="custInvoice">Invoice Number</label></div>
-        <div class="field"><input type="text" id="secretCode" placeholder=" " required inputmode="numeric" autocomplete="off" /><label for="secretCode">Secret Reward Code </label></div>
+        <div class="field"><input type="text" id="secretCode" placeholder=" " required inputmode="text" autocomplete="off" /><label for="secretCode">Secret Reward Code </label></div>
         <button type="submit" class="unlock-btn">Unlock Rewards Wheel <span class="arrow">→</span></button>
       </form>
     </section>
@@ -177,10 +177,11 @@
           <button class="spin-btn" id="spinBtn">SPIN</button>
         </div>
         <div class="stats">
-          <div class="stat"><div class="v" id="statSpins">0</div><div class="l">Total Spins</div></div>
-          <div class="stat"><div class="v" id="statCustomer">—</div><div class="l">Player</div></div>
+          <div class="stat">
+            <div class="v" id="statSpins"></div>
+          <div class="stat"><div class="v" id="statCustomer">—</div><center><div class="l">Player</div></center></div>
         </div>
-        <p class="hint">🎯 Spin to win one of 6 amazing rewards!</p>
+        <!-- <p class="hint">🎯 Spin to win one of 5 amazing rewards!</p> -->
       </div>
     </section>
     <div class="ad-container">
@@ -230,13 +231,12 @@
 <script>
 (function(){
   const SLICES = [
-    { label:'Wireless Headphones', icon:'🎧', color1:'#60A5FA', color2:'#2563EB', code:'649' },
-    { label:'₹200 Voucher', icon:'💵', color1:'#34D399', color2:'#059669', code:'732' },
-    { label:'₹300 Voucher', icon:'💰', color1:'#FBBF24', color2:'#D97706', code:'859' },
-    { label:'5% Discount', icon:'🏷️', color1:'#F472B6', color2:'#DB2777', code:'989' },
-    { label:'Bluetooth Speaker', icon:'🔊', color1:'#FB923C', color2:'#EA580C', code:'359' },
-    { label:'Gift Hamper', icon:'🧺', color1:'#2DD4BF', color2:'#0D9488', code:'259' },
-  ];
+     { label:'₹100 Rupees Voucher', icon:'💵', color1:'#60A5FA', color2:'#2563EB', code:'PE10' },
+     { label:'₹50 Rupees Voucher', icon:'💵', color1:'#34D399', color2:'#059669', code:'PE15' },
+     { label:'₹1000 Rupees Voucher', icon:'💰', color1:'#FBBF24', color2:'#D97706', code:'PE20' },
+     { label:'₹300 Rupees Voucher', icon:'💵', color1:'#F472B6', color2:'#DB2777', code:'PE13' },
+     { label:'₹200 Rupees Voucher', icon:'💵', color1:'#FB923C', color2:'#EA580C', code:'PE12' },
+   ];
   const SLICE_INDICES = SLICES.map((s,i)=>i);
   const SLICE_ANGLE = (Math.PI*2)/SLICES.length;
   let totalSpins = parseInt(localStorage.getItem('gmr_total_spins')||'0',10);
@@ -483,7 +483,7 @@
     const mobile = document.getElementById('custMobile').value.trim();
     const invoice = document.getElementById('custInvoice').value.trim();
     const secret = document.getElementById('secretCode').value.trim();
-    const validCodes = ['649','732','859','989','359','259'];
+    const validCodes = ['PE10','PE15','PE20','PE13','PE12'];
     if(!name || !/^[0-9]{10}$/.test(mobile) || !invoice){
       alert('Please fill all fields correctly (10-digit mobile).');
       return;
@@ -553,7 +553,9 @@
     alert('Voucher redemption initiated! Please show your screen to the store counter.');
   });
   document.getElementById('waBtn').addEventListener('click', ()=>{
-    const msg = '🎉 I just won ' + lastPrize.icon + ' ' + lastPrize.label + ' at Patidar Electronics and Furniture Mall! Spin the wheel and win amazing prizes. Join now!';
+    const prizeName = lastPrize ? lastPrize.label : 'a reward';
+    const liveUrl = window.location.href;
+    const msg = '🎉 *Patidar Electronics & Furniture Mall* 🎉\n🎁 *I just won ' + prizeName + '* on the Spin & Win wheel!\n\nSpin the wheel now and claim your reward today 👇\n' + liveUrl;
     const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
     window.open(url,'_blank');
   });
