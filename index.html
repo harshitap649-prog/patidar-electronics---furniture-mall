@@ -234,8 +234,8 @@
      { label:'₹100 Rupees Voucher', icon:'💵', color1:'#60A5FA', color2:'#2563EB', code:'PE10' },
      { label:'₹50 Rupees Voucher', icon:'💵', color1:'#34D399', color2:'#059669', code:'PE15' },
      { label:'₹1000 Rupees Voucher', icon:'💰', color1:'#FBBF24', color2:'#D97706', code:'PE20' },
+     { label:'₹500 Rupees Voucher', icon:'💵', color1:'#FB923C', color2:'#EA580C', code:'PE25' },
      { label:'₹300 Rupees Voucher', icon:'💵', color1:'#F472B6', color2:'#DB2777', code:'PE13' },
-     { label:'₹200 Rupees Voucher', icon:'💵', color1:'#FB923C', color2:'#EA580C', code:'PE12' },
    ];
   const SLICE_INDICES = SLICES.map((s,i)=>i);
   const SLICE_ANGLE = (Math.PI*2)/SLICES.length;
@@ -483,7 +483,7 @@
     const mobile = document.getElementById('custMobile').value.trim();
     const invoice = document.getElementById('custInvoice').value.trim();
     const secret = document.getElementById('secretCode').value.trim().toUpperCase();
-    const validCodes = ['PE10','PE15','PE20','PE13','PE12'];
+    const validCodes = ['PE10','PE15','PE20','PE25','PE13'];
     if(!name || !/^[0-9]{10}$/.test(mobile) || !invoice){
       alert('Please fill all fields correctly (10-digit mobile).');
       return;
