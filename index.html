@@ -556,7 +556,7 @@
     const prizeName = lastPrize ? lastPrize.label : 'a reward';
     const liveUrl = window.location.href;
     const msg = '🎉 *Patidar Electronics & Furniture Mall* 🎉\n🎁 *I just won ' + prizeName + '* on the Spin & Win wheel!\n\nSpin the wheel now and claim your reward today 👇\n' + liveUrl;
-    const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    const url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(msg);
     window.open(url,'_blank');
   });
 })();
